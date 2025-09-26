@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wyatt Grant</title>
+  <meta name="description" content="Personal portfolio of Wyatt: projects, about, and contact links." />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" type="image/x-icon" href="./favicon.ico">
+
+  <style>
+    /* Vars */
+    :root {
+      --bg: #0e1224;
+      --bg-elev: rgba(18, 22, 40, 0.55);
+      --text: #eef0fb;
+      --muted: #b8c1de;
+      --accent: #7aa2ff;
+      --accent-2: #ff7ab6;
+      --accent-3: #7bffcf;
+      --card: #161a2e;
+      --border: #283352;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      --radius: 14px;
+      --nav-h: 64px;
+      --container: 1100px;
+    }
+
+    /* themes */
+    html[data-theme="light"] {
+      --bg: #f7f8fd;
+      --bg-elev: rgba(255, 255, 255, 0.6);
+      --text: #101225;
+      --muted: #4c5577;
+      --accent: #335cff;
+      --accent-2: #ff4fa0;
+      --accent-3: #0db36e;
+      --accent-4: #9ea4cb;
+      --card: #ffffff;
+      --border: #e6e9f2;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    html[data-theme="dark"] {
+      --bg: #0e1224;
+      --bg-elev: rgba(18, 22, 40, 0.55);
+      --text: #eef0fb;
+      --muted: #b8c1de;
+      --accent: #7aa2ff;
+      --accent-2: #ff7ab6;
+      --accent-3: #7bffcf;
+      --accent-4: #6f7994;
+      --card: #161a2e;
+      --border: #283352;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    /* Default to system theme when no manual theme is set */
+    @media (prefers-color-scheme: light) {
+      html:not([data-theme]) {
+        --bg: #f7f8fd;
+        --bg-elev: rgba(255, 255, 255, 0.6);
+        --text: #101225;
+        --muted: #4c5577;
+        --accent: #335cff;
+        --accent-2: #ff4fa0;
+        --accent-3: #0db36e;
+        --accent-4: #9ea4cb;
+        --card: #ffffff;
+        --border: #e6e9f2;
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      color-scheme: light dark;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .card,
+      .icon-btn,
+      .btn {
+        transition: none !important;
+      }
+    }
+
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      line-height: 1.6;
+      background:
+        radial-gradient(1200px 800px at 10% -10%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 60%),
+        radial-gradient(1000px 700px at 110% 10%, color-mix(in oklab, var(--accent-2) 18%, transparent), transparent 60%),
+        radial-gradient(900px 600px at 50% 110%, color-mix(in oklab, var(--accent-3) 18%, transparent), transparent 60%),
+        var(--bg);
+      padding-top: var(--nav-h);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      width: min(100% - 2rem, var(--container));
+      margin-inline: auto;
+    }
+
+    /* Top bar */
+    .topbar {
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      z-index: 1000;
+      background: var(--bg-elev);
+      backdrop-filter: blur(10px) saturate(120%);
+      -webkit-backdrop-filter: blur(10px) saturate(120%);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar .inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      font-weight: 700;
+      letter-spacing: .3px;
+    }
+
+    .brand .dot {
+      width: 10px;
+      min-width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 18px var(--accent);
+    }
+
+    .nav {
+      display: flex;
+      gap: .25rem;
+      align-items: center;
+    }
+
+    .nav a {
+      color: var(--muted);
+      padding: .5rem .75rem;
+      border-radius: 10px;
+      transition: background .2s ease, color .2s ease;
+    }
+
+    .nav a:hover,
+    .nav a:focus {
+      background: color-mix(in oklab, var(--accent) 16%, transparent);
+      color: var(--text);
+      text-decoration: none;
+      outline: none;
+    }
+
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: color-mix(in oklab, var(--card) 80%, transparent);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: .45rem .65rem;
+      cursor: pointer;
+      transition: background .2s ease, border-color .2s ease, transform .15s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: translateY(-1px);
+      border-color: color-mix(in oklab, var(--accent) 35%, var(--border));
+    }
+
+    .mode-badge {
+      display: inline-block;
+      min-width: 58px;
+      text-align: center;
+      font-size: .85rem;
+      padding: .2rem .45rem;
+      border-radius: 8px;
+      background: color-mix(in oklab, var(--accent) 50%, transparent);
+      color: #fff;
+    }
+
+    /* Sections */
+    section {
+      scroll-margin-top: calc(var(--nav-h) + 18px);
+      padding-block: clamp(3rem, 6vw, 5rem);
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      display: grid;
+      align-items: center;
+      width: 100% !important;
+      min-height: clamp(55vh, 70vh, 78vh);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero h1 {
+      margin: 0 0 .5rem 0;
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      line-height: 1.1;
+      letter-spacing: .4px;
+    }
+
+    .tagline {
+      margin: 0 auto 1.2rem auto;
+      max-width: 60ch;
+      color: var(--muted);
+      font-size: clamp(1rem, 1.6vw, 1.15rem);
+    }
+
+    .cta-row {
+      margin-top: 1.2rem;
+      display: inline-flex;
+      gap: .75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: .7rem 1rem;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent), color-mix(in oklab, var(--accent-2) 60%, var(--accent)));
+      color: #fff;
+      box-shadow: var(--shadow);
+      border: 1px solid transparent;
+    }
+
+    .btn.ghost {
+      background: transparent;
+      color: var(--text);
+      border-color: var(--border);
+    }
+
+    /* Overlapping waves */
+    .waves {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      overflow: visible;
+    }
+
+    .waves .layer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      width: 120%;
+      margin-left: -10%;
+      filter: blur(0.1px);
+      animation: floatY 18s ease-in-out infinite alternate;
+      transform-origin: center;
+      overflow: visible;
+    }
+
+    .waves .layer:nth-child(1) {
+      top: -18%;
+      opacity: .35;
+      animation-delay: 0s;
+    }
+
+    .waves .layer:nth-child(2) {
+      top: -12%;
+      opacity: .28;
+      animation-delay: .8s;
+    }
+
+    .waves .layer:nth-child(3) {
+      top: -6%;
+      opacity: .22;
+      animation-delay: 1.6s;
+    }
+
+    .waves-bottom .layer:nth-child(1) {
+      bottom: -18%;
+      top: auto;
+      opacity: .35;
+      animation-delay: .2s;
+    }
+
+    .waves-bottom .layer:nth-child(2) {
+      bottom: -12%;
+      top: auto;
+      opacity: .28;
+      animation-delay: 1s;
+    }
+
+    .waves-bottom .layer:nth-child(3) {
+      bottom: -6%;
+      top: auto;
+      opacity: .22;
+      animation-delay: 1.8s;
+    }
+
+    @keyframes floatY {
+      0% {
+        transform: translateY(0)
+      }
+
+      100% {
+        transform: translateY(12px)
+      }
+    }
+
+    .waves svg {
+      display: block;
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+    }
+
+    /* About */
+    .about {
+      background:
+        linear-gradient(180deg, color-mix(in oklab, var(--accent-4) 100%, transparent), var(--bg)),
+        color-mix(in oklab, var(--card) 80%, transparent);
+    }
+
+    .about .grid {
+      display: grid;
+      gap: 1.25rem;
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 800px) {
+      .about .grid {
+        grid-template-columns: 1.2fr .8fr;
+        align-items: start;
+      }
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: clamp(1rem, 3vw, 1.5rem);
+      box-shadow: var(--shadow);
+    }
+
+    .about h2,
+    .projects h2 {
+      margin-top: 0;
+      margin-bottom: .6rem;
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
+    }
+
+    .about p {
+      margin: .5rem 0;
+    }
+
+    /* Projects */
+    .projects {
+      background: var(--bg);
+    }
+
+    .projects .grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 600px) {
+      .projects .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1000px) {
+      .projects .grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      display: grid;
+      gap: .6rem;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+      border-color: color-mix(in oklab, var(--accent) 35%, var(--border));
+    }
+
+    .card h3 {
+      margin: .2rem 0;
+      font-size: 1.1rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .tags {
+      gap: .4rem;
+      flex-wrap: wrap;
+      margin-top: .2rem;
+    }
+
+    .tag {
+      margin: 2px;
+      font-size: .8rem;
+      padding: .2rem .5rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      background: color-mix(in oklab, var(--card) 80%, transparent);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding-block: 1.25rem;
+      background: color-mix(in oklab, var(--card) 40%, transparent);
+    }
+
+    .foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    .social {
+      display: inline-flex;
+      gap: .6rem;
+      align-items: center;
+    }
+
+    .icon-btn {
+      display: inline-grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: inherit;
+      text-decoration: none;
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+    }
+
+    .icon-btn:hover {
+      transform: translateY(-2px);
+      border-color: color-mix(in oklab, var(--accent) 35%, var(--border));
+      text-decoration: none;
+    }
+
+    .icon {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    :focus-visible {
+      outline: 2px solid color-mix(in oklab, var(--accent) 60%, white);
+      outline-offset: 2px;
+      border-radius: 8px;
+    }
+
+    .profile-pic {
+      border-radius: 50%;
+      width: clamp(100px, 20%, 180px);
+    }
+
+    @media screen and (max-width: 600px) {
+      #modeBadge {
+        display: none;
+      }
+    }
+
+    .job-date {
+      font-weight: normal;
+      font-size: 0.9em;
+      color: #666;
+      width: 100%;
+      display: block;
+      text-align: right;
+      line-height: 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Top bar -->
+  <header class="topbar" role="banner">
+    <div class="container inner">
+      <div class="brand">
+        <span class="dot" aria-hidden="true"></span>
+        <a href="#home" style="color:inherit; text-decoration:none;">Wyatt Grant</a>
+      </div>
+
+      <nav class="nav" aria-label="Primary">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+      </nav>
+
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle theme">
+        <span aria-hidden="true">🌓</span>
+        <span class="mode-badge" id="modeBadge">System</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main id="home" class="hero container" role="main">
+    <!-- Waves: top -->
+    <div class="waves" aria-hidden="true">
+      <svg class="layer" viewBox="0 0 1440 320" preserveAspectRatio="none">
+        <path fill="url(#g1)"
+          d="M0,160L60,160C120,160,240,160,360,186.7C480,213,600,267,720,272C840,277,960,235,1080,197.3C1200,160,1320,128,1380,112L1440,96L1440,0L0,0Z" />
+        <defs>
+          <linearGradient id="g1" x1="0" x2="1">
+            <stop offset="0%" stop-color="var(--accent)" />
+            <stop offset="100%" stop-color="var(--accent-2)" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <svg class="layer" viewBox="0 0 1440 320" preserveAspectRatio="none">
+        <path fill="url(#g2)"
+          d="M0,128L80,122.7C160,117,320,107,480,138.7C640,171,800,245,960,245.3C1120,245,1280,171,1360,133.3L1440,96L1440,0L0,0Z" />
+        <defs>
+          <linearGradient id="g2" x1="0" x2="1">
+            <stop offset="0%" stop-color="var(--accent-2)" />
+            <stop offset="100%" stop-color="var(--accent-3)" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <svg class="layer" viewBox="0 0 1440 320" preserveAspectRatio="none">
+        <path fill="url(#g3)"
+          d="M0,192L100,197.3C200,203,400,213,600,181.3C800,149,1000,75,1200,58.7C1400,43,1600,85,1800,128L1800,0L0,0Z"
+          transform="scale(0.8) translate(-144,0)" />
+        <defs>
+          <linearGradient id="g3" x1="0" x2="1">
+            <stop offset="0%" stop-color="var(--accent-3)" />
+            <stop offset="100%" stop-color="var(--accent)" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <div>
+      <img src="./avatar.webp" alt="Wyatt Grant profile picture" class="profile-pic" />
+      <h1>Wyatt Grant</h1>
+      <p class="tagline">Building solutions that work beautifully under the hood and on the screen.</p>
+      <div class="cta-row">
+        <a class="btn" href="#projects">View projects</a>
+        <a class="btn ghost" href="#about">About me</a>
+      </div>
+    </div>
+
+    <!-- Waves: bottom -->
+    <div class="waves waves-bottom" aria-hidden="true" style="inset:auto 0 0 0;">
+      <svg class="layer" viewBox="0 0 1440 320" preserveAspectRatio="none">
+        <path fill="url(#gb1)"
+          d="M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,160C672,171,768,213,864,224C960,235,1056,213,1152,197.3C1248,181,1344,171,1392,165.3L1440,160L1440,320L0,320Z" />
+        <defs>
+          <linearGradient id="gb1" x1="0" x2="1">
+            <stop offset="0%" stop-color="var(--accent)" />
+            <stop offset="100%" stop-color="var(--accent-2)" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <svg class="layer" viewBox="0 0 1440 320" preserveAspectRatio="none">
+        <path fill="url(#gb2)"
+          d="M0,256L120,245.3C240,235,480,213,720,208C960,203,1200,213,1320,208C1440,203,1440,192,1440,192L1440,320L0,320Z" />
+        <defs>
+          <linearGradient id="gb2" x1="0" x2="1">
+            <stop offset="0%" stop-color="var(--accent-2)" />
+            <stop offset="100%" stop-color="var(--accent-3)" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <svg class="layer" viewBox="0 0 1440 320" preserveAspectRatio="none">
+        <path fill="url(#gb3)"
+          d="M0,320L60,293.3C120,267,240,213,360,208C480,203,600,245,720,240C840,235,960,181,1080,154.7C1200,128,1320,128,1380,128L1440,128L1440,320L0,320Z"
+          transform="scale(1.1) translate(-72,0)" />
+        <defs>
+          <linearGradient id="gb3" x1="0" x2="1">
+            <stop offset="0%" stop-color="var(--accent-3)" />
+            <stop offset="100%" stop-color="var(--accent)" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+  </main>
+
+  <!-- About -->
+  <section id="about" class="about">
+    <div class="container grid">
+      <article class="panel">
+        <h2>About</h2>
+        <p>I'm a developer based in Saskatoon who cares about maintainable code, performance, and clear communication. I
+          focus on modern web stacks and accessible design, specializing in Laravel and React.</p>
+        <p>Outside of work, you’ll usually find me diving into hobby projects, out for a run, or relaxing with my cat.
+        </p>
+      </article>
+      <aside class="panel" aria-label="Highlights">
+        <h2>Highlights</h2>
+        <ul>
+          <li><strong>Focus:</strong> Performance and maintainability</li>
+          <li><strong>Stack:</strong> PHP + Laravel, HTML, CSS, JS/TS + React, MySQL, Docker, NGINX</li>
+        </ul>
+      </aside>
+    </div>
+    <div class="container">
+      </br>
+      <article class="panel">
+        <h2>Work History</h2>
+
+        <div class="job">
+          <span class="job-date">2024 - July 2025</span>
+          <h4>DataDrill: Field Tech</h4>
+          <ul>
+            <li>Drive to remote locations to deliver, install, troubleshoot, and repair equipment.</li>
+            <li>Set up mesh networks, satellites, repeaters, boosters, cameras, radios, etc.</li>
+            <li>Maintain storage of equipment, the truck, and supplies in the shop.</li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <span class="job-date">2022 - 2024</span>
+          <h4>Coconut Software: Intermediate Developer II</h4>
+          <ul>
+            <li>Spearheaded technical initiatives.</li>
+            <li>Onboarded and trained new team members.</li>
+            <li>Collaborated to maintain alignment between technical and project objectives.</li>
+          </ul>
+
+          <span class="job-date">2020 - 2022</span>
+          <h4>Coconut Software: Intermediate Developer I</h4>
+          <ul>
+            <li>Provided accurate time and effort estimations for projects.</li>
+            <li>Ensured accessibility support and compliance with WCAG 2.1 standards.</li>
+            <li>Utilized monitoring solutions like Datadog and Sentry to ensure stability.</li>
+          </ul>
+
+          <span class="job-date">2019 - 2020</span>
+          <h4>Coconut Software: Junior Developer II</h4>
+          <ul>
+            <li>Authored documentation for both internal team use and external use.</li>
+            <li>Actively participated in support calls to troubleshoot and resolve issues.</li>
+            <li>Resolved bugs and implemented features.</li>
+          </ul>
+
+          <span class="job-date">2018 - 2019</span>
+          <h4>Coconut Software: Junior Developer I</h4>
+          <ul>
+            <li>Managed and maintained customized forks of applications tailored to specific clients.</li>
+            <li>Developed integrations: calendar syncing and bulk data exporting/importing.</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="projects">
+    <div class="container">
+      <h2>Projects</h2>
+      <div class="grid">
+        <article class="card">
+          <a href="https://store.steampowered.com/app/2276480/Monster_Tower_Quest/">
+            <img src="./MTQ.webp" alt="Monster Tower Quest picture" width="100%" />
+            <h3>Monster Tower Quest</h3>
+            <p>A puzzle game available on Steam, built with a custom engine developed in C# using the MonoGame
+              framework.</p>
+          </a>
+          <div class="tags"><span class="tag">C#</span><span class="tag">MonoGame</span><span class="tag">Game
+              Dev</span></div>
+        </article>
+        <article class="card">
+          <a href="https://wyatt-grant.github.io/wellinfo/">
+            <img src="./WI.webp" alt="Well Info picture" width="100%" />
+            <h3>Well Info</h3>
+            <p>A custom React-based web application developed to streamline daily wellsite reporting for oil rigs. The
+              app enables staff to quickly input, review, and reprint key operational data.</p>
+          </a>
+          <div class="tags"><span class="tag">React</span><span class="tag">JavaScript</span><span
+              class="tag">MUI</span></div>
+        </article>
+        <article class="card">
+          <a href="https://github.com/Wyatt-Grant/PicoSystemLauncher">
+            <img src="./PSL.webp" alt="Pico System picture" width="100%" />
+            <h3>PicoSystem Launcher</h3>
+            <p>A game launcher for Pico System (powered by a Raspberry Pi Pico). Written in C++ it features 6 games, a
+              piezo buzzer based music player, and a common interface to tie everything together.</p>
+          </a>
+          <div class="tags"><span class="tag">C++</span><span class="tag">Raspberry Pi</span><span class="tag">Embedded
+              Systems</span></div>
+        </article>
+        <article class="card">
+          <a href="https://github.com/Wyatt-Grant/Discipline-Habit-Tracker-Server">
+            <img src="./DHT.webp" alt="" width="100%" />
+            <h3>Discipline habit tracker</h3>
+            <p>A habit tracker designed for use between partners. allows setting up complex goals, rewards, punishments,
+              and rules. Backend written in Laravel with native apps for android and iOS in Swift and Kotlin.</p>
+          </a>
+          <div class="tags"><span class="tag">Laravel</span><span class="tag">Swift</span><span
+              class="tag">Kotlin</span></div>
+        </article>
+        <article class="card">
+          <a href="https://wyatt-grant.github.io/tickets/">
+            <img src="./DD.webp" alt="" width="100%" />
+            <h3>DataDrill Tickets</h3>
+            <p>A digital solution for creating field job tickets. Streamlines the process of documenting work performed
+              in the field by allowing personnel to fill out job details, check off completed tasks, and capture
+              signatures.</p>
+          </a>
+          <div class="tags"><span class="tag">JavaScript</span><span class="tag">React</span><span class="tag">Embedded
+              Systems</span></div>
+        </article>
+        <article class="card">
+          <a href="https://www.reddit.com/r/PokemonROMhacks/comments/1nlk62f/pok%C3%A9mon_iron_development_update_1/">
+            <img src="./PI.webp" alt="" width="100%" />
+            <h3>Pokemon Iron</h3>
+            <p>My work-in-progress fork of pokemon emerald, based on the decomp project:
+              https://github.com/pret/pokeemerald. Includes a new story & region, retro graphics, and improved QoL.</p>
+          </a>
+          <div class="tags"><span class="tag">C++</span><span class="tag">GBA</span><span class="tag">Game Dev</span>
+          </div>
+        </article>
+        <article class="card">
+          <a href="https://medium.com/@w7y7a7t7t/building-my-own-arcade-cabinet-with-a-raspberry-pi-5043ccc4265e">
+            <img src="./AC.webp" alt="" width="100%" />
+            <h3>Arcade Cabinet</h3>
+            <p>I built a custom Neo Geo style arcade cabinet powered by a Raspberry Pi, combining woodworking,
+              electronics, and software into one project.</p>
+          </a>
+          <div class="tags"><span class="tag">Hardware</span><span class="tag">Raspberry Pi</span><span class="tag">Wood
+              working</span></div>
+        </article>
+        <article class="card">
+          <a href="https://thedelm.itch.io/creature-capture-plugin">
+            <img src="./CCP.webp" alt="creature capture plugin picture" width="100%" />
+            <h3>RMMZ Creature Capture Plugin</h3>
+            <p>This plugin for RPG Maker MZ that enables essential gameplay features for a creature-focused RPG,
+              including capturing, battling, and storing creatures. Written in JS.</p>
+          </a>
+          <div class="tags"><span class="tag">JavaScript</span><span class="tag">Plugin</span><span class="tag">Game
+              Dev</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer role="contentinfo">
+    <div class="container foot">
+      <div>© <span id="year"></span> Wyatt Grant</div>
+      <div class="social" aria-label="Social links">
+        <a class="icon-btn" href="https://github.com/Wyatt-Grant" aria-label="GitHub">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.02c-3.34.73-4.04-1.41-4.04-1.41-.55-1.38-1.34-1.75-1.34-1.75-1.1-.76.08-.75.08-.75 1.22.09 1.86 1.25 1.86 1.25 1.08 1.85 2.83 1.32 3.52 1.01.11-.8.42-1.32.76-1.62-2.66-.3-5.47-1.34-5.47-5.95 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.51.12-3.15 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.64.24 2.85.12 3.15.77.84 1.24 1.91 1.24 3.22 0 4.62-2.81 5.64-5.49 5.94.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .5z" />
+          </svg>
+        </a>
+        <a class="icon-btn" href="https://www.linkedin.com/in/wyatt-grant-2410ab143/" aria-label="LinkedIn">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8.5h4V23h-4V8.5zm7 0h3.84v1.98h.05c.53-1 1.83-2.06 3.78-2.06 4.04 0 4.78 2.66 4.78 6.12V23h-4v-6.44c0-1.54-.03-3.52-2.15-3.52-2.15 0-2.48 1.67-2.48 3.4V23h-4V8.5z" />
+          </svg>
+        </a>
+        <a class="icon-btn" href="mailto:wyattgrant95@gmail.com" aria-label="Email">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M20 4H4c-1.1 0-2 .9-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6c0-1.1-.9-2-2-2zm0 3.2-8 5.3-8-5.3V6l8 5.3L20 6v1.2z" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Auto year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Theme toggle: cycles system → light → dark
+    const root = document.documentElement;
+    const btn = document.getElementById('themeToggle');
+    const badge = document.getElementById('modeBadge');
+    const THEMES = ['system', 'light', 'dark'];
+
+    function getStoredTheme() { return localStorage.getItem('theme') || 'system'; }
+    function setStoredTheme(val) { localStorage.setItem('theme', val); }
+    function label(theme) { return theme[0].toUpperCase() + theme.slice(1); }
+
+    function applyTheme(theme) {
+      if (theme === 'system') {
+        root.removeAttribute('data-theme'); // allows prefers-color-scheme to apply
+      } else {
+        root.setAttribute('data-theme', theme);
+      }
+      badge.textContent = label(theme);
+    }
+
+    let current = getStoredTheme();
+    applyTheme(current);
+
+    btn.addEventListener('click', () => {
+      const idx = THEMES.indexOf(current);
+      current = THEMES[(idx + 1) % THEMES.length];
+      setStoredTheme(current);
+      applyTheme(current);
+    });
+
+    // Keep in sync when on "system" and OS theme changes
+    const darkMql = window.matchMedia('(prefers-color-scheme: dark)');
+    if (darkMql.addEventListener) {
+      darkMql.addEventListener('change', () => { if (getStoredTheme() === 'system') applyTheme('system'); });
+    } else if (darkMql.addListener) {
+      darkMql.addListener(() => { if (getStoredTheme() === 'system') applyTheme('system'); });
+    }
+  </script>
+</body>
+
+</html>
